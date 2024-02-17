@@ -6,56 +6,12 @@ import math
 from pygame.locals import *
 import os
 from math import floor,ceil
+from display import WIN_LEFT, WIN_MAIN, WIN_RIGHT, WIN_MID
+from display import WINDOW, GUI
 
-class WINDOW():
-    def __init__(self,x,y,width,height):
-        self.x = x
-        self.y = y
-        self.width = width
-        self.height = height
-    
-    def pos(self):
-        return (self.x, self.y)
-    
-    def size(self):
-        return (self.width, self.height)
-
-# SCREEN_WIDTH = 800
-# SCREEN_HEIGHT = 600
-# GUI = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT))
-GUI = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
-SCREEN_WIDTH = pygame.display.Info().current_w
-SCREEN_HEIGHT = pygame.display.Info().current_h
-TILE0 = WINDOW(
-    x = 0,
-    y = 0,
-    width = SCREEN_WIDTH,
-    height = SCREEN_HEIGHT
-)
-TILE1 = WINDOW(
-    x = 0,
-    y = floor(SCREEN_HEIGHT * .50),
-    width = ceil(SCREEN_WIDTH * .30),
-    height = ceil(SCREEN_HEIGHT * .50)
-)
-TILE2 = WINDOW(
-    x = floor(SCREEN_WIDTH * .30), 
-    y = floor(SCREEN_HEIGHT * .50),
-    width = ceil(SCREEN_WIDTH * .30),
-    height = ceil(SCREEN_HEIGHT * .50)
-)
-TILE3 = WINDOW(
-    x = floor(SCREEN_WIDTH * .60), 
-    y = floor(SCREEN_HEIGHT * .50),
-    width = ceil(SCREEN_WIDTH * .40),
-    height = ceil(SCREEN_HEIGHT * .50)
-)
-
-
-pygame.display.set_caption("Bingo Board")
 run = True
 pad = 5     # padding between balls
-br = ceil(TILE0.width/(17*2+pad))  # ball radius
+br = ceil(WIN_MAIN.width/(17*2+pad))  # ball radius
 bw = 2*br   # ball width
 bh = 2*br   # ball height
 fs = br     # ball font size
@@ -312,17 +268,17 @@ def menu_position(
     xPos = 0
     yPos = 0
     SUBTILE = WINDOW(
-        x = TILE1.x + floor(radius*1.5),
-        y = TILE1.y,
-        width = TILE1.width - ceil(radius*1.5),
-        height = TILE1.height
+        x = WIN_LEFT.x + floor(radius*1.5),
+        y = WIN_LEFT.y,
+        width = WIN_LEFT.width - ceil(radius*1.5),
+        height = WIN_LEFT.height
     )
     
     width =  radius*2 + (radius*2 + padding) * 2
     height = radius*2 + (radius*2 + padding) * 4
     BTILE = WINDOW(
-        x = TILE1.x + floor((SUBTILE.width - width)/2),
-        y = TILE1.y + floor((SUBTILE.height - height)/2),
+        x = WIN_LEFT.x + floor((SUBTILE.width - width)/2),
+        y = WIN_LEFT.y + floor((SUBTILE.height - height)/2),
         width = width,
         height = height
     )
@@ -360,10 +316,10 @@ def menu_bingo_position(
     
     height = radius*2 + (radius*2 + padding) * 4
     SUBTILE = WINDOW(
-        x = TILE1.x,
-        y = TILE1.y + floor((TILE1.height - height)/2),
-        width = TILE1.width - ceil(radius*1.5),
-        height = TILE1.height
+        x = WIN_LEFT.x,
+        y = WIN_LEFT.y + floor((WIN_LEFT.height - height)/2),
+        width = WIN_LEFT.width - ceil(radius*1.5),
+        height = WIN_LEFT.height
     )
     xPos = SUBTILE.x + 5
     yPos = SUBTILE.y + (radius*2 + padding) * (num - 1)
@@ -510,9 +466,9 @@ def update_ball(balls, index):
 def create_stage(str1,str2):
     # number ball
     # sizeN = (br*2*4, br*2*4)
-    width = floor(TILE3.width * .70)
-    left = TILE3.x + floor((TILE3.x - width)/2)
-    top = TILE3.y + floor((TILE3.y - width)/2)
+    width = floor(WIN_RIGHT.width * .70)
+    left = WIN_RIGHT.x + floor((WIN_RIGHT.x - width)/2)
+    top = WIN_RIGHT.y + floor((WIN_RIGHT.y - width)/2)
     bw = floor(width * .90)
     bh = bw
     sw = floor(width * .60)
@@ -520,16 +476,16 @@ def create_stage(str1,str2):
     
     sx = left
     sy = top
-    bx = floor((TILE3.width - width))
-    by = floor((TILE3.height - width))
+    bx = floor((WIN_RIGHT.width - width))
+    by = floor((WIN_RIGHT.height - width))
 
-    bx = TILE3.x + TILE3.width - bw
-    by = TILE3.y + TILE3.height - bw
+    bx = WIN_RIGHT.x + WIN_RIGHT.width - bw
+    by = WIN_RIGHT.y + WIN_RIGHT.height - bw
     sx = bx - floor(sw/2)
     sy = by - floor(sh/2)
 
-    sx = TILE3.x + floor((TILE3.width - (bw + floor(sw/2)))/2)
-    sy = TILE3.y + floor((TILE3.height - (bh + floor(sh/2)))/2)
+    sx = WIN_RIGHT.x + floor((WIN_RIGHT.width - (bw + floor(sw/2)))/2)
+    sy = WIN_RIGHT.y + floor((WIN_RIGHT.height - (bh + floor(sh/2)))/2)
     bx = sx + floor(sw/2)
     by = sy + floor(sh/2)
 
@@ -545,12 +501,12 @@ def badge_position(index2D:tuple, size:tuple):
     width = size[0]*3 + pad*2
     height = size[1]*4 + (br+5)*3
     print(
-        "br: {} height {} TILE2.height {}"
-        .format(br, height,TILE2.height)
+        "br: {} height {} WIN_MID.height {}"
+        .format(br, height,WIN_MID.height)
     )
     SUBTILE = WINDOW(
-        x = TILE2.x + floor((TILE2.width - width)/2),
-        y = TILE2.y + floor((TILE2.height - height)/2) + 10,
+        x = WIN_MID.x + floor((WIN_MID.width - width)/2),
+        y = WIN_MID.y + floor((WIN_MID.height - height)/2) + 10,
         width = width,
         height = height
     )
@@ -729,14 +685,14 @@ def create_badges():
     m = 4 # num of badge sets
     
     # badge width
-    bw = floor((TILE2.height - (m+1)*padX)/m)
+    bw = floor((WIN_MID.height - (m+1)*padX)/m)
     
     width = (n+1)*padX + n*bw
     height = (m+1)*padY + m*bw
     
     SUBTILE = WINDOW(
-        x = TILE2.x + floor((TILE2.width - width)/2),
-        y = TILE2.y + floor((TILE2.height - height)/2),
+        x = WIN_MID.x + floor((WIN_MID.width - width)/2),
+        y = WIN_MID.y + floor((WIN_MID.height - height)/2),
         width = width,
         height = height
     )
@@ -839,9 +795,9 @@ while run:
                     all_sprites.add(letter_stage)
 
     # print(br*2)
-    surf = pygame.surface.Surface([TILE2.width, TILE2.height])
+    surf = pygame.surface.Surface([WIN_MID.width, WIN_MID.height])
     # pygame.draw.rect(surf,color_white,[
-    #     TILE1.x,TILE1.y,TILE1.width,TILE1.height
+    #     WIN_LEFT.x,WIN_LEFT.y,WIN_LEFT.width,WIN_LEFT.height
     # ])
 
     
@@ -855,8 +811,8 @@ while run:
     # GUI.blit(image,(0,0))
     # GUI.blit(sprite,(0,200))
     # GUI.blit(badge,(0,400))
-    # GUI.blit(surf, (TILE2.x,TILE2.y))
-    # badge1 = Badge(draw_badge_1(), (floor(TILE0.width/2),100))
+    # GUI.blit(surf, (WIN_MID.x,WIN_MID.y))
+    # badge1 = Badge(draw_badge_1(), (floor(WIN_MAIN.width/2),100))
     # all_sprites.add(badge1)
 
     # for ball in balls:
