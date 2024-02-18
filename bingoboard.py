@@ -26,7 +26,8 @@ class Img():
         self.fonttype = 'Comic Sans MS'
 
 class Badge(pygame.sprite.Sprite):
-    def __init__(self, image:pygame.Surface, pos):
+    def __init__(self, image:pygame.Surface, pos, 
+                 deactivate_alpha = 25):
         pygame.sprite.Sprite.__init__(self)
         self.image = image
         self.rect = image.get_rect()
@@ -34,6 +35,9 @@ class Badge(pygame.sprite.Sprite):
         self.rect.x = pos[0]
         self.rect.y = pos[1]
         self.text = ''
+        self.deactive_alpha = deactivate_alpha
+        self.active = False
+        self.deactivate()
     
     def resize(self, size):
         self.image = pygame.transform.scale(self.image, size)
@@ -42,6 +46,20 @@ class Badge(pygame.sprite.Sprite):
         self.rect.x = pos[0]
         self.rect.y = pos[1]
         self.size = size
+
+    def deactivate(self):
+        self.image.set_alpha(self.deactive_alpha)
+        self.active = False
+    
+    def activate(self):
+        self.image.set_alpha(255)
+        self.active = True
+    
+    def toggle(self):
+        if self.active:
+            self.deactivate()
+        else:
+            self.activate()
 
     def set_text(self, text, fonttype, fontsize, fontcolor):
         # Create ball text
@@ -512,6 +530,8 @@ def draw_badge_4(size, thickness):
     return surface
 
 def create_badges():
+    ''' badges are the squares in the board area.
+    '''
     padX = 10
     padY = 10
     n = 3 #num_badges
@@ -529,35 +549,35 @@ def create_badges():
         width = width,
         height = height
     )
-    badges = list()
+    badges = pygame.sprite.Group()
 
     # Postage Stamp
     for i in range(0,n):
         pos = (SUBTILE.x + bw*i + padX*(i+1), SUBTILE.y+padY)
         badge = Badge(draw_badge_1(100, 4),pos)
         badge.resize((bw,bw))
-        badges.append(badge)
+        badges.add(badge)
 
     # Bingo
     for i in range(0,n):
         pos = (SUBTILE.x + bw*i + padX*(i+1), SUBTILE.y + bw*1+padY*2)
         badge = Badge(draw_badge_2(100,4),pos)
         badge.resize((bw,bw))
-        badges.append(badge)
+        badges.add(badge)
 
     # Corners
     for i in range(0,n):
         pos = (SUBTILE.x + bw*i + padX*(i+1), SUBTILE.y + bw*2+padY*3)
         badge = Badge(draw_badge_3(100,4),pos)
         badge.resize((bw,bw))
-        badges.append(badge)
+        badges.add(badge)
 
     # Cover All
     for i in range(0,n):
         pos = (SUBTILE.x + bw*i + padX*(i+1), SUBTILE.y + bw*3+padY*4)
         badge = Badge(draw_badge_4(100,4),pos)
         badge.resize((bw,bw))
-        badges.append(badge)
+        badges.add(badge)
     return badges
     
 
@@ -621,11 +641,17 @@ while run:
                     # update sprite list to draw
                     update_ball(balls, BI-1)
 
+                    # Draw Large Select Ball
                     number_stage.kill()
                     letter_stage.kill()
                     number_stage, letter_stage = create_stage(str(BI), letter)
                     all_sprites.add(number_stage)
                     all_sprites.add(letter_stage)
+                
+            for i, item in enumerate(badges.sprites()):
+                point = pygame.mouse.get_pos()
+                if item.rect.collidepoint(point):
+                    item.toggle()
 
     # print(br*2)
     surf = pygame.surface.Surface([WIN_MID.width, WIN_MID.height])
@@ -655,6 +681,8 @@ while run:
     ball_sprites.draw(GUI)
     all_sprites.update()
     all_sprites.draw(GUI)
+    badges.update()
+    badges.draw(GUI)
 
     letter = set_menu_group(menu_balls, letter)
     menu[letter].update()
