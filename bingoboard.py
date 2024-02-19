@@ -20,7 +20,6 @@ fs = br     # ball font size
 background_color = color_gray
 GUI.fill(background_color)
 
-      
 class Img():
     def __init__(self):
         self.fonttype = 'Comic Sans MS'
@@ -390,6 +389,17 @@ def create_badges():
     
     return badges
 
+def create_button(text, pos, fontsize, fontcolor, fonttype):
+     
+    font = pygame.font.SysFont(fonttype, fontsize)
+    textsurface = font.render(text, True, fontcolor)
+
+    button = TextBlock(textsurface)
+    button.set_pos(pos)
+
+    return button
+    
+
 def create_badge_titles(badges):
     # Badge Titles
     fonttype = 'Comic Sans MS'
@@ -586,6 +596,16 @@ pygame.init()
 all_sprites = pygame.sprite.Group()
 ball_sprites = pygame.sprite.Group()
 
+xPos = WIN_RIGHT.x
+yPos = WIN_RIGHT.y + WIN_RIGHT.height - 2*br
+btn_new_game = create_button(
+    text = "New Game",
+    pos = (xPos,yPos),
+    fonttype = 'Comic Sans MS',
+    fontcolor = color_white,
+    fontsize = br,
+)
+
 balls = create_board_balls()
 menu = create_menu_sprite_groups()
 menu_balls = create_menu_bingo()
@@ -653,6 +673,11 @@ while run:
                 if item.rect.collidepoint(point):
                     item.toggle()
 
+            if btn_new_game.rect.collidepoint(point):
+                for ball in balls:
+                    ball.kill()
+
+
     # print(br*2)
     surf = pygame.surface.Surface([WIN_MID.width, WIN_MID.height])
     # pygame.draw.rect(surf,color_white,[
@@ -677,6 +702,10 @@ while run:
     # for ball in balls:
     #     ball_sprites.add(ball)
 
+    # btn_new_game.set_pos()
+
+
+    all_sprites.add(btn_new_game)
     ball_sprites.update()
     ball_sprites.draw(GUI)
     all_sprites.update()
