@@ -183,9 +183,7 @@ def bingo_position(
 
     xPos = 5
     yPos = 20 + ( radius*2  + padding )  * (num - 1)
-    
-    # xPos = (radius*2 + padding)
-    # yPos = (radius*2 + padding) * (num - 1)
+
     return((xPos,yPos))
 
 def create_board_balls():
@@ -315,7 +313,6 @@ def update_ball(balls, index):
 
 def create_stage(str1,str2):
     # number ball
-    # sizeN = (br*2*4, br*2*4)
     width = floor(WIN_RIGHT.width * .70)
     left = WIN_RIGHT.x + floor((WIN_RIGHT.x - width)/2)
     top = WIN_RIGHT.y + floor((WIN_RIGHT.y - width)/2)
@@ -383,8 +380,7 @@ def create_badges():
                 fontsize = br,
                 fontcolor = color_black
             )
-            
-            # badge.image.set_alpha(255/2)
+
             badges.append(badge)
     
     return badges
@@ -431,13 +427,6 @@ def create_badge_titles(badges):
         blocks.append(block)
     return blocks
 
-    # tw, th = textsurface.get_size()
-    # fx = self.size[0]/2-fx/2
-    # fy = self.size[1]/2-fy/2
-
-    # Add font to ball
-    # self.image.blit(textsurface, (fx,fy))
-
 def get_bingo(color:str, image):
     sprite = pygame.Surface([200,200])
     left = 0
@@ -448,6 +437,7 @@ def get_bingo(color:str, image):
     sprite = pygame.Surface([width,height])
     sprite.blit(image, (0,0), (left,top,width,height))
     sprite.set_colorkey((0,0,0))
+
     return sprite
 
 def get_frame(surface, rect):
@@ -459,7 +449,7 @@ def get_frame(surface, rect):
     
     image = pygame.Surface([rect[2],rect[3]])
     image.blit(surface, (0,0), (left,top,width,height))
-    # image.set_colorkey((0,0,0))
+
     return image
 
 def get_ball(color:str):
@@ -544,7 +534,7 @@ def create_badges():
     '''
     padX = 10
     padY = 10
-    n = 3 #num_badges
+    n = 3 # num_badges
     m = 4 # num of badge sets
     
     # badge width
@@ -615,21 +605,8 @@ badges = create_badges()
 for badge in badges:
     all_sprites.add(badge)
 
-
 badge = get_ball('red') 
 
-# badge = Badge(badge,(0,0))
-# print(badge)
-
-# badge = Badge(sprite,(0,0))
-# print(badge)
-# all_sprites.add(badge)
-
-# all_sprites.add(badge_titles)
-
-# all_sprites.add(ColorBall('blue',None,None,None))
-# all_sprites.add(ColorBall('red',None,None,None))
-# all_sprites.add(ColorBall('yellow',None,None,None))
 letter = 'B'
 BI = None
 number_stage, letter_stage = create_stage('-','-')
@@ -676,34 +653,6 @@ while run:
             if btn_new_game.rect.collidepoint(point):
                 for ball in balls:
                     ball.kill()
-
-
-    # print(br*2)
-    surf = pygame.surface.Surface([WIN_MID.width, WIN_MID.height])
-    # pygame.draw.rect(surf,color_white,[
-    #     WIN_LEFT.x,WIN_LEFT.y,WIN_LEFT.width,WIN_LEFT.height
-    # ])
-
-    
-    # sprite = pygame.image.load(os.path.join('Bingo Balls All 200 px.png'))
-    # image = pygame.Surface([200,200])
-    # image.blit(sprite, (0,0), (0,0,200,200))
-    # image.set_colorkey((0,0,0))
-    # badge = get_ball('red') 
-    # print(image)
-    # print(sprite)
-    # GUI.blit(image,(0,0))
-    # GUI.blit(sprite,(0,200))
-    # GUI.blit(badge,(0,400))
-    # GUI.blit(surf, (WIN_MID.x,WIN_MID.y))
-    # badge1 = Badge(draw_badge_1(), (floor(WIN_MAIN.width/2),100))
-    # all_sprites.add(badge1)
-
-    # for ball in balls:
-    #     ball_sprites.add(ball)
-
-    # btn_new_game.set_pos()
-
 
     all_sprites.add(btn_new_game)
     ball_sprites.update()
