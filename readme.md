@@ -10,5 +10,3 @@
 
 ## Open Bingo Board
 1. Open pygame-bingo-board/BingoBoard.bat
-
-## How To

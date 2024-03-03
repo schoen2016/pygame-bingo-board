@@ -468,7 +468,7 @@ def get_ball(color:str):
     else:
         index = 0
     
-    sprite = pygame.image.load(os.path.join('Bingo Balls All 200 px.png')).convert_alpha()
+    sprite = pygame.image.load(os.path.join('src/Bingo Balls All 200 px.png')).convert_alpha()
     rect = [index * 200, 0, 200, 200]
 
     return get_frame(sprite,rect)

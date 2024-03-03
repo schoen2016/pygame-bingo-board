@@ -1,1 +1,1 @@
-python %~dp0\BingoBoard.py
+python %~dp0\src\BingoBoard.py

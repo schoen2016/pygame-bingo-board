@@ -1,7 +1,3 @@
 python --version
 
-pip install -r %~dp0\requirements.txt
-
-cd %~dp0
-
-pause
+pip install -r %~dp0\src\requirements.txt

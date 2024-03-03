@@ -21,7 +21,7 @@ class Ball(pygame.sprite.Sprite):
         self._label()
 
     def get_image(self, text):
-        sprite = pygame.image.load(os.path.join('Bingo Balls All 200 px.png')).convert_alpha()
+        sprite = pygame.image.load(os.path.join('src/Bingo Balls All 200 px.png')).convert_alpha()
         
         blue = ["B",'-']
         blue.extend([str(i) for i in range(0,16)])
